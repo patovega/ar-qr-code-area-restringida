@@ -43,14 +43,26 @@
 </head>
 <body>
     <div class="instructions">
-        Apunta la cámara hacia un marcador HIRO para ver el letrero AR de acceso restringido.
+        Apunta la cámara hacia un marcador HIRO para ver el letrero AR de acceso restringido y el servidor 3D.
     </div>
 
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;" vr-mode-ui="enabled: false">
+        <!-- Definir los assets -->
+        <a-assets>
+            <a-asset-item id="server-rack" src="server_rack.glb"></a-asset-item>
+        </a-assets>
+        
         <!-- Definir un marcador -->
         <a-marker preset="hiro">
+            <!-- Modelo 3D del servidor -->
+            <a-entity 
+                gltf-model="#server-rack" 
+                position="0 1.5 0" 
+                rotation="-90 0 0" 
+                scale="0.5 0.5 0.5">
+            </a-entity>
+            
             <!-- Contenido AR - Letrero de Acceso Restringido -->
-            <a-asset-item id="server_rack" src="server_rack.glb"></a-asset-item>
             <a-entity
                 position="0 0.5 0"
                 rotation="-90 0 0"
@@ -186,13 +198,17 @@
 
     <div class="ar-overlay">
         <button id="callButton" class="contact-btn" style="margin-right: 10px;">Llamar ahora</button>
-        
+        <button id="rotateButton" class="contact-btn">Rotar servidor</button>
     </div>
 
     <script>
         // Datos de contacto
         const emailContact = "MesaDeAyudaTIC@sgscm.cl";
-        const phoneNumber = "+56 9 9633 4364";
+        const phoneNumber = "+56 9 3943 6079";
+        
+        // Variables para la rotación
+        let isRotating = false;
+        let rotationInterval;
         
         // Solicitar acceso a la cámara explícitamente
         document.addEventListener('DOMContentLoaded', function() {
@@ -245,11 +261,39 @@
                 console.error('API de mediaDevices no disponible');
                 document.body.innerHTML = '<div style="padding: 20px; text-align: center; font-family: Arial;"><h2>Navegador no compatible</h2><p>Tu navegador no es compatible con la realidad aumentada. Intenta con Chrome o Firefox en un dispositivo móvil reciente.</p></div>';
             }
+            
+            // Manejar errores de carga del modelo 3D
+            const serverModel = document.querySelector('[gltf-model="#server-rack"]');
+            serverModel.addEventListener('model-error', function(e) {
+                console.error('Error al cargar el modelo 3D:', e.detail.message);
+                alert('No se pudo cargar el modelo 3D del servidor. Verifica que el archivo server_rack.glb existe en el mismo directorio que esta página HTML.');
+            });
         });
         
         // Configura el botón de llamada
         document.getElementById('callButton').addEventListener('click', function() {
             window.location.href = `tel:${phoneNumber.replace(/\s+/g, '')}`;
+        });
+        
+        // Configura el botón de rotación
+        document.getElementById('rotateButton').addEventListener('click', function() {
+            const serverModel = document.querySelector('[gltf-model="#server-rack"]');
+            
+            if (isRotating) {
+                // Detener rotación
+                clearInterval(rotationInterval);
+                this.textContent = 'Rotar servidor';
+                isRotating = false;
+            } else {
+                // Iniciar rotación
+                let rotation = 0;
+                rotationInterval = setInterval(() => {
+                    rotation += 1;
+                    serverModel.setAttribute('rotation', `-90 ${rotation} 0`);
+                }, 30);
+                this.textContent = 'Detener rotación';
+                isRotating = true;
+            }
         });
 
         // Detecta cuando el marcador es encontrado
