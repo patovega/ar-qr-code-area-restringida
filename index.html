@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letrero AR con Teléfono de Contacto</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ar.js/2.2.2/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ar.js/2.2.2/ar-templates.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ar.js/2.2.2/ar.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        .ar-overlay {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            z-index: 999;
+        }
+        .contact-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .instructions {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(255,255,255,0.8);
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 999;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="instructions">
+        Apunta la cámara hacia un marcador para ver el letrero AR. 
+        Puedes usar el patrón Hiro o cualquier imagen como marcador.
+    </div>
+
+    <a-scene embedded arjs="trackingMethod: best; debugUIEnabled: false;" vr-mode-ui="enabled: false">
+        <!-- Definir un marcador -->
+        <a-marker preset="hiro">
+            <!-- Contenido AR - Letrero -->
+            <a-entity
+                position="0 0.5 0"
+                rotation="-90 0 0"
+                scale="1 1 1">
+                <a-plane 
+                    width="2" 
+                    height="1" 
+                    color="#FFFFFF" 
+                    opacity="0.9" 
+                    position="0 0 0">
+                </a-plane>
+                <a-text
+                    value="¡Contáctanos!"
+                    position="0 0.3 0.01"
+                    rotation="0 0 0"
+                    color="#000000"
+                    width="1.8"
+                    align="center">
+                </a-text>
+                <a-text
+                    id="phoneNumber"
+                    value="+56 9 1234 5678"
+                    position="0 0 0.01"
+                    rotation="0 0 0"
+                    color="#007BFF"
+                    width="1.8"
+                    align="center">
+                </a-text>
+                <a-text
+                    value="¡Escanea para llamar!"
+                    position="0 -0.3 0.01"
+                    rotation="0 0 0"
+                    color="#444444"
+                    width="1.8"
+                    align="center"
+                    scale="0.8 0.8 0.8">
+                </a-text>
+            </a-entity>
+        </a-marker>
+        <a-entity camera></a-entity>
+    </a-scene>
+
+    <div class="ar-overlay">
+        <button id="callButton" class="contact-btn">Llamar ahora</button>
+    </div>
+
+    <script>
+        // El número de teléfono que quieres mostrar y usar para llamadas
+        const phoneNumber = "+56 9 1234 5678"; // Reemplaza con tu número real
+        
+        // Actualiza el texto AR con el número de teléfono
+        document.getElementById('phoneNumber').setAttribute('value', phoneNumber);
+        
+        // Configura el botón de llamada
+        document.getElementById('callButton').addEventListener('click', function() {
+            window.location.href = `tel:${phoneNumber.replace(/\s+/g, '')}`;
+        });
+
+        // Detecta cuando el marcador es encontrado
+        const marker = document.querySelector('a-marker');
+        marker.addEventListener('markerFound', function() {
+            console.log('¡Marcador encontrado!');
+            // Aquí puedes agregar alguna animación o efecto cuando se detecta el marcador
+        });
+    </script>
+</body>
+</html>
