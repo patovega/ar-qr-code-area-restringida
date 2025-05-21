@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Letrero AR</title>
+    <title>Letrero AR - Acceso Restringido</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <style>
@@ -20,7 +20,7 @@
             z-index: 999;
         }
         .contact-btn {
-            background-color: #4CAF50;
+            background-color: #d9534f;
             color: white;
             padding: 12px 24px;
             border: none;
@@ -43,50 +43,180 @@
 </head>
 <body>
     <div class="instructions">
-        Apunta la cámara hacia un marcador para ver el letrero AR. 
-        Puedes usar el patrón Hiro o cualquier imagen como marcador.
+        Apunta la cámara hacia un marcador HIRO para ver el letrero AR de acceso restringido.
     </div>
 
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;" vr-mode-ui="enabled: false">
         <!-- Definir un marcador -->
         <a-marker preset="hiro">
-            <!-- Contenido AR - Letrero -->
+            <!-- Contenido AR - Letrero de Acceso Restringido -->
             <a-entity
                 position="0 0.5 0"
                 rotation="-90 0 0"
                 scale="1 1 1">
                 <a-plane 
-                    width="2" 
-                    height="1" 
+                    width="2.5" 
+                    height="3" 
                     color="#FFFFFF" 
-                    opacity="0.9" 
+                    opacity="0.95" 
                     position="0 0 0">
                 </a-plane>
+                <!-- Franja roja en el borde derecho -->
+                <a-plane 
+                    width="0.15" 
+                    height="3" 
+                    color="#d9534f" 
+                    position="1.175 0 0.01">
+                </a-plane>
                 <a-text
-                    value="¡Contáctanos!"
-                    position="0 0.3 0.01"
+                    value="ACCESO RESTRINGIDO"
+                    position="0 1.2 0.01"
                     rotation="0 0 0"
-                    color="#000000"
-                    width="1.8"
-                    align="center">
-                </a-text>
-                <a-text
-                    id="phoneNumber"
-                    value="+56 9 1234 5678"
-                    position="0 0 0.01"
-                    rotation="0 0 0"
-                    color="#007BFF"
-                    width="1.8"
-                    align="center">
-                </a-text>
-                <a-text
-                    value="¡Escanea para llamar!"
-                    position="0 -0.3 0.01"
-                    rotation="0 0 0"
-                    color="#444444"
-                    width="1.8"
+                    color="#333333"
+                    width="2.3"
                     align="center"
-                    scale="0.8 0.8 0.8">
+                    scale="1.5 1.5 1.5">
+                </a-text>
+                <a-text
+                    value="Sala de Comunicaciones"
+                    position="0 0.8 0.01"
+                    rotation="0 0 0"
+                    color="#333333"
+                    width="2.3"
+                    align="center"
+                    scale="1 1 1">
+                </a-text>
+                <a-text
+                    value="SGSCM"
+                    position="0 0.5 0.01"
+                    rotation="0 0 0"
+                    color="#333333"
+                    width="2.3"
+                    align="center"
+                    scale="1 1 1">
+                </a-text>
+                
+                <!-- Línea de división -->
+                <a-plane 
+                    width="2" 
+                    height="0.01" 
+                    color="#cccccc" 
+                    position="0 0.3 0.01">
+                </a-plane>
+                
+                <a-text
+                    value="Información de contacto:"
+                    position="-0.8 0.1 0.01"
+                    rotation="0 0 0"
+                    color="#666666"
+                    width="2.3"
+                    align="left"
+                    scale="0.7 0.7 0.7">
+                </a-text>
+                
+                <!-- Turno 1-2 -->
+                <a-text
+                    value="Turno 1-2"
+                    position="-0.9 -0.1 0.01"
+                    rotation="0 0 0"
+                    color="#333333"
+                    width="2"
+                    align="left"
+                    scale="0.6 0.6 0.6">
+                </a-text>
+                <a-text
+                    value="Cristobal García"
+                    position="-0.1 -0.1 0.01"
+                    rotation="0 0 0"
+                    color="#333333"
+                    width="2"
+                    align="left"
+                    scale="0.5 0.5 0.5">
+                </a-text>
+                <a-text
+                    value="+56 9 9633 4364"
+                    position="0.9 -0.1 0.01"
+                    rotation="0 0 0"
+                    color="#333333"
+                    width="2"
+                    align="left"
+                    scale="0.5 0.5 0.5">
+                </a-text>
+                <a-text
+                    value="Hugo Sánchez"
+                    position="-0.1 -0.3 0.01"
+                    rotation="0 0 0"
+                    color="#333333"
+                    width="2"
+                    align="left"
+                    scale="0.5 0.5 0.5">
+                </a-text>
+                <a-text
+                    value="+56 9 5225 8017"
+                    position="0.9 -0.3 0.01"
+                    rotation="0 0 0"
+                    color="#333333"
+                    width="2"
+                    align="left"
+                    scale="0.5 0.5 0.5">
+                </a-text>
+                
+                <!-- Turno 3-4 -->
+                <a-text
+                    value="Turno 3-4"
+                    position="-0.9 -0.5 0.01"
+                    rotation="0 0 0"
+                    color="#333333"
+                    width="2"
+                    align="left"
+                    scale="0.6 0.6 0.6">
+                </a-text>
+                <a-text
+                    value="Sebastian Collao"
+                    position="-0.1 -0.5 0.01"
+                    rotation="0 0 0"
+                    color="#333333"
+                    width="2"
+                    align="left"
+                    scale="0.5 0.5 0.5">
+                </a-text>
+                <a-text
+                    value="+56 9 9633 4364"
+                    position="0.9 -0.5 0.01"
+                    rotation="0 0 0"
+                    color="#333333"
+                    width="2"
+                    align="left"
+                    scale="0.5 0.5 0.5">
+                </a-text>
+                <a-text
+                    value="Esteban Oyarzo"
+                    position="-0.1 -0.7 0.01"
+                    rotation="0 0 0"
+                    color="#333333"
+                    width="2"
+                    align="left"
+                    scale="0.5 0.5 0.5">
+                </a-text>
+                <a-text
+                    value="+56 9 6495 8170"
+                    position="0.9 -0.7 0.01"
+                    rotation="0 0 0"
+                    color="#333333"
+                    width="2"
+                    align="left"
+                    scale="0.5 0.5 0.5">
+                </a-text>
+                
+                <!-- Correo Electrónico -->
+                <a-text
+                    value="Correo Electrónico: MesaDeAyudaTIC@sgscm.cl"
+                    position="0 -1.1 0.01"
+                    rotation="0 0 0"
+                    color="#333333"
+                    width="2.3"
+                    align="center"
+                    scale="0.6 0.6 0.6">
                 </a-text>
             </a-entity>
         </a-marker>
@@ -94,12 +224,14 @@
     </a-scene>
 
     <div class="ar-overlay">
-        <button id="callButton" class="contact-btn">Llamar ahora</button>
+        <button id="callButton" class="contact-btn" style="margin-right: 10px;">Llamar ahora</button>
+        <button id="emailButton" class="contact-btn">Enviar Email</button>
     </div>
 
     <script>
-        // El número de teléfono que quieres mostrar y usar para llamadas
-        const phoneNumber = "+56 9 1234 5678"; // Reemplaza con tu número real
+        // Datos de contacto
+        const emailContact = "MesaDeAyudaTIC@sgscm.cl";
+        const phoneNumber = "+56 9 9633 4364";
         
         // Solicitar acceso a la cámara explícitamente
         document.addEventListener('DOMContentLoaded', function() {
@@ -153,10 +285,10 @@
                 document.body.innerHTML = '<div style="padding: 20px; text-align: center; font-family: Arial;"><h2>Navegador no compatible</h2><p>Tu navegador no es compatible con la realidad aumentada. Intenta con Chrome o Firefox en un dispositivo móvil reciente.</p></div>';
             }
         });
+        // Configura el botón de email
+        document.getElementById('emailButton').addEventListener('click', function() {
+            window.location.href = `mailto:${emailContact}`;
         });
-        
-        // Actualiza el texto AR con el número de teléfono
-        document.getElementById('phoneNumber').setAttribute('value', phoneNumber);
         
         // Configura el botón de llamada
         document.getElementById('callButton').addEventListener('click', function() {
