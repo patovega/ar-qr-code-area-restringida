@@ -2,11 +2,10 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Letrero AR con Teléfono de Contacto</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ar.js/2.2.2/aframe.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ar.js/2.2.2/ar-templates.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ar.js/2.2.2/ar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.2.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ar.js/2.2.2/aframe-ar.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -48,7 +47,7 @@
         Puedes usar el patrón Hiro o cualquier imagen como marcador.
     </div>
 
-    <a-scene embedded arjs="trackingMethod: best; debugUIEnabled: false;" vr-mode-ui="enabled: false">
+    <a-scene embedded arjs="trackingMethod: best; debugUIEnabled: false; sourceType: webcam;" vr-mode-ui="enabled: false">
         <!-- Definir un marcador -->
         <a-marker preset="hiro">
             <!-- Contenido AR - Letrero -->
@@ -101,6 +100,28 @@
     <script>
         // El número de teléfono que quieres mostrar y usar para llamadas
         const phoneNumber = "+56 9 1234 5678"; // Reemplaza con tu número real
+        
+        // Solicitar acceso a la cámara explícitamente
+        document.addEventListener('DOMContentLoaded', function() {
+            // Solicitar permiso de cámara al cargar la página
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function(stream) {
+                        console.log('Acceso a la cámara concedido');
+                        // Detener el stream ya que AR.js gestionará la cámara
+                        stream.getTracks().forEach(track => {
+                            track.stop();
+                        });
+                    })
+                    .catch(function(error) {
+                        console.error('Error al acceder a la cámara:', error);
+                        alert('Se requiere acceso a la cámara para la experiencia AR. Por favor, permite el acceso cuando se te solicite.');
+                    });
+            } else {
+                console.error('getUserMedia no es compatible con este navegador');
+                alert('Tu navegador no es compatible con la realidad aumentada. Intenta con Chrome o Firefox en un dispositivo móvil.');
+            }
+        });
         
         // Actualiza el texto AR con el número de teléfono
         document.getElementById('phoneNumber').setAttribute('value', phoneNumber);
