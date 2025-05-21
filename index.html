@@ -78,7 +78,7 @@
                     scale="1.5 1.5 1.5">
                 </a-text>
                 <a-text
-                    value="Sala de Comunicaciones"
+                    value="Sala de Comunicaciones Truckshop"
                     position="0 0.8 0.01"
                     rotation="0 0 0"
                     color="#333333"
@@ -105,7 +105,7 @@
                 </a-plane>
                 
                 <a-text
-                    value="Información de contacto:"
+                    value="Contacto:"
                     position="-0.8 0.1 0.01"
                     rotation="0 0 0"
                     color="#666666"
@@ -124,26 +124,9 @@
                     align="left"
                     scale="0.6 0.6 0.6">
                 </a-text>
+               
                 <a-text
-                    value="Cristobal García"
-                    position="-0.1 -0.1 0.01"
-                    rotation="0 0 0"
-                    color="#333333"
-                    width="2"
-                    align="left"
-                    scale="0.5 0.5 0.5">
-                </a-text>
-                <a-text
-                    value="+56 9 9633 4364"
-                    position="0.9 -0.1 0.01"
-                    rotation="0 0 0"
-                    color="#333333"
-                    width="2"
-                    align="left"
-                    scale="0.5 0.5 0.5">
-                </a-text>
-                <a-text
-                    value="Hugo Sánchez"
+                    value="Hugo Sanchez"
                     position="-0.1 -0.3 0.01"
                     rotation="0 0 0"
                     color="#333333"
@@ -171,26 +154,9 @@
                     align="left"
                     scale="0.6 0.6 0.6">
                 </a-text>
+
                 <a-text
-                    value="Sebastian Collao"
-                    position="-0.1 -0.5 0.01"
-                    rotation="0 0 0"
-                    color="#333333"
-                    width="2"
-                    align="left"
-                    scale="0.5 0.5 0.5">
-                </a-text>
-                <a-text
-                    value="+56 9 9633 4364"
-                    position="0.9 -0.5 0.01"
-                    rotation="0 0 0"
-                    color="#333333"
-                    width="2"
-                    align="left"
-                    scale="0.5 0.5 0.5">
-                </a-text>
-                <a-text
-                    value="Esteban Oyarzo"
+                    value="Arturo Salazar"
                     position="-0.1 -0.7 0.01"
                     rotation="0 0 0"
                     color="#333333"
@@ -199,7 +165,7 @@
                     scale="0.5 0.5 0.5">
                 </a-text>
                 <a-text
-                    value="+56 9 6495 8170"
+                    value="+56 9 3943 6079"
                     position="0.9 -0.7 0.01"
                     rotation="0 0 0"
                     color="#333333"
@@ -210,7 +176,7 @@
                 
                 <!-- Correo Electrónico -->
                 <a-text
-                    value="Correo Electrónico: MesaDeAyudaTIC@sgscm.cl"
+                    value="Email: MesaDeAyudaTIC@sgscm.cl"
                     position="0 -1.1 0.01"
                     rotation="0 0 0"
                     color="#333333"
@@ -225,7 +191,7 @@
 
     <div class="ar-overlay">
         <button id="callButton" class="contact-btn" style="margin-right: 10px;">Llamar ahora</button>
-        <button id="emailButton" class="contact-btn">Enviar Email</button>
+        
     </div>
 
     <script>
@@ -284,10 +250,6 @@
                 console.error('API de mediaDevices no disponible');
                 document.body.innerHTML = '<div style="padding: 20px; text-align: center; font-family: Arial;"><h2>Navegador no compatible</h2><p>Tu navegador no es compatible con la realidad aumentada. Intenta con Chrome o Firefox en un dispositivo móvil reciente.</p></div>';
             }
-        });
-        // Configura el botón de email
-        document.getElementById('emailButton').addEventListener('click', function() {
-            window.location.href = `mailto:${emailContact}`;
         });
         
         // Configura el botón de llamada
