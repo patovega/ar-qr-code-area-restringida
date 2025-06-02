@@ -26,7 +26,7 @@ function contactSupport() {
 async function loadARScene() {
     try {
         console.log('Cargando escena AR...');
-        const response = await fetch('./ar-scene.html');
+        const response = await fetch('ar-scene.html');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -37,10 +37,17 @@ async function loadARScene() {
             container.innerHTML = sceneHTML;
             console.log('Escena AR cargada exitosamente');
             
-            // Reinicializar eventos después de cargar el contenido
-            setTimeout(() => {
-                initializeMarkerEvents();
-            }, 1000);
+            // Esperar a que A-Frame procese los elementos antes de inicializar eventos
+            waitForARElements()
+                .then(() => {
+                    console.log('Elementos AR detectados, inicializando eventos...');
+                    initializeMarkerEvents();
+                })
+                .catch(error => {
+                    console.error('Timeout esperando elementos AR:', error);
+                    // Intentar de todas formas después de más tiempo
+                    setTimeout(() => initializeMarkerEvents(), 3000);
+                });
         } else {
             console.error('Container ar-scene-container no encontrado');
         }
@@ -48,6 +55,41 @@ async function loadARScene() {
         console.error('Error cargando escena AR:', error);
         showError('Error de carga', 'No se pudo cargar el contenido AR. Verifica que el archivo ar-scene.html existe.');
     }
+}
+
+/**
+ * Esperar a que los elementos AR estén disponibles
+ */
+function waitForARElements() {
+    return new Promise((resolve, reject) => {
+        let attempts = 0;
+        const maxAttempts = 30; // 15 segundos máximo
+        
+        const checkElements = () => {
+            const marker = document.querySelector('a-marker');
+            const scene = document.querySelector('a-scene');
+            const content = document.querySelector('#main-content');
+            
+            console.log(`Intento ${attempts + 1}: Marker=${!!marker}, Scene=${!!scene}, Content=${!!content}`);
+            
+            if (marker && scene) {
+                // Los elementos principales están disponibles
+                resolve();
+                return;
+            }
+            
+            attempts++;
+            if (attempts >= maxAttempts) {
+                reject(new Error('Timeout: No se pudieron encontrar los elementos AR'));
+                return;
+            }
+            
+            // Verificar cada 500ms
+            setTimeout(checkElements, 500);
+        };
+        
+        checkElements();
+    });
 }
 
 /**
@@ -102,41 +144,60 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeMarkerEvents() {
     const marker = document.querySelector('a-marker');
     const content = document.querySelector('#main-content');
+    const scene = document.querySelector('a-scene');
     
-    if (marker && content) {
-        console.log('Configurando eventos del marcador...');
-        
-        // Eventos de marcador con debouncing
-        marker.addEventListener('markerFound', function() {
-            console.log('Marcador encontrado');
-            markerVisible = true;
-            lastMarkerTime = Date.now();
-            
-            // Limpiar timer anterior
-            if (stabilityTimer) {
-                clearTimeout(stabilityTimer);
-                stabilityTimer = null;
-            }
-            
-            // Opcional: agregar efectos adicionales cuando se encuentra el marcador
-            onMarkerFound();
-        });
-        
-        marker.addEventListener('markerLost', function() {
-            console.log('Marcador perdido');
-            markerVisible = false;
-            
-            // Dar un poco de tiempo antes de ocultar completamente
-            stabilityTimer = setTimeout(() => {
-                if (!markerVisible) {
-                    console.log('Ocultando contenido por pérdida prolongada de marcador');
-                    onMarkerLost();
-                }
-            }, 500); // 500ms de gracia
-        });
-    } else {
-        console.warn('No se pudieron encontrar elementos del marcador o contenido');
+    console.log('Verificando elementos AR:');
+    console.log('- Marker:', !!marker);
+    console.log('- Content:', !!content);
+    console.log('- Scene:', !!scene);
+    
+    if (!marker) {
+        console.warn('⚠️ No se encontró el elemento a-marker');
+        return;
     }
+    
+    if (!scene) {
+        console.warn('⚠️ No se encontró el elemento a-scene');
+        return;
+    }
+    
+    console.log('✅ Configurando eventos del marcador...');
+    
+    // Eventos de marcador con debouncing
+    marker.addEventListener('markerFound', function() {
+        console.log('🎯 Marcador encontrado');
+        markerVisible = true;
+        lastMarkerTime = Date.now();
+        
+        // Limpiar timer anterior
+        if (stabilityTimer) {
+            clearTimeout(stabilityTimer);
+            stabilityTimer = null;
+        }
+        
+        // Opcional: agregar efectos adicionales cuando se encuentra el marcador
+        onMarkerFound();
+    });
+    
+    marker.addEventListener('markerLost', function() {
+        console.log('❌ Marcador perdido');
+        markerVisible = false;
+        
+        // Dar un poco de tiempo antes de ocultar completamente
+        stabilityTimer = setTimeout(() => {
+            if (!markerVisible) {
+                console.log('⏱️ Ocultando contenido por pérdida prolongada de marcador');
+                onMarkerLost();
+            }
+        }, 500); // 500ms de gracia
+    });
+    
+    // Evento cuando la escena está lista
+    scene.addEventListener('loaded', function() {
+        console.log('🌟 A-Frame scene completamente cargada');
+    });
+    
+    console.log('✅ Eventos del marcador configurados exitosamente');
 }
 
 /**
@@ -319,7 +380,7 @@ if (!checkBrowserCompatibility()) {
 async function loadDirectoryData() {
     try {
         console.log('Cargando datos del directorio...');
-        const response = await fetch('data/gtic-directory.json');
+        const response = await fetch('gtic-directory.json');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

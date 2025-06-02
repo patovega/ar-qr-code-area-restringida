@@ -18,9 +18,14 @@
         • Mantén distancia de 20-50cm
     </div>
 
-    <div id="ar-scene-container">
-        <!-- El contenido AR se cargará aquí -->
-    </div>
+    <a-scene 
+        embedded 
+        arjs="sourceType: webcam; debugUIEnabled: false;">
+        <a-marker preset="hiro">
+            <a-text value="FUNCIONA!" position="0 0.5 0" color="red"></a-text>
+        </a-marker>
+        <a-entity camera></a-entity>
+    </a-scene>
 
 
     <div class="ar-overlay">
