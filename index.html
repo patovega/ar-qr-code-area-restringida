@@ -7,7 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <!-- Estilos externos -->
-    <link rel="stylesheet" href="css/ar-gtic.css">
+    <link rel="stylesheet" href="ar-gtic.css">
 </head>
 <body>
     <div class="instructions">
@@ -19,7 +19,22 @@
     </div>
 
     <div id="ar-scene-container">
-        <!-- El contenido AR se cargará aquí -->
+        <!-- El contenido AR se cargará dinámicamente aquí -->
+        <div class="loading-ar" style="
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 10px;
+        ">
+            🔄 Cargando experiencia AR...<br>
+            <small>Preparando cámara y contenido</small>
+        </div>
     </div>
 
 
@@ -30,6 +45,6 @@
     </div>
 
     <!-- Script externo para funcionalidad AR -->
-    <script src="js/ar-gtic.js"></script>
+    <script src="ar-gtic.js"></script>
 </body>
 </html>

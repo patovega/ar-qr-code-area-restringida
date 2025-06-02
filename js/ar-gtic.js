@@ -25,35 +25,53 @@ function contactSupport() {
  */
 async function loadARScene() {
     try {
-        console.log('Cargando escena AR...');
+        console.log('🔄 Cargando escena AR desde archivo externo...');
+        
         const response = await fetch('./ar-scene.html');
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
         }
+        
         const sceneHTML = await response.text();
+        console.log('✅ Archivo ar-scene.html cargado, tamaño:', sceneHTML.length, 'caracteres');
         
         const container = document.getElementById('ar-scene-container');
-        if (container) {
-            container.innerHTML = sceneHTML;
-            console.log('Escena AR cargada exitosamente');
-            
-            // Esperar a que A-Frame procese los elementos antes de inicializar eventos
-            waitForARElements()
-                .then(() => {
-                    console.log('Elementos AR detectados, inicializando eventos...');
-                    initializeMarkerEvents();
-                })
-                .catch(error => {
-                    console.error('Timeout esperando elementos AR:', error);
-                    // Intentar de todas formas después de más tiempo
-                    setTimeout(() => initializeMarkerEvents(), 3000);
-                });
-        } else {
-            console.error('Container ar-scene-container no encontrado');
+        if (!container) {
+            throw new Error('Container ar-scene-container no encontrado en el DOM');
         }
+        
+        // Insertar el contenido
+        container.innerHTML = sceneHTML;
+        console.log('✅ Contenido HTML insertado en el container');
+        
+        // Esperar a que A-Frame procese los elementos
+        console.log('⏳ Esperando a que A-Frame procese los elementos...');
+        
+        try {
+            // Esperar a que A-Frame esté listo
+            await waitForAFrameReady();
+            console.log('✅ A-Frame está listo');
+            
+            // Luego esperar a que los elementos específicos estén disponibles
+            await waitForARElements();
+            console.log('✅ Elementos AR detectados, inicializando eventos...');
+            
+            initializeMarkerEvents();
+            console.log('🎯 ¡Sistema AR completamente inicializado!');
+            
+        } catch (error) {
+            console.error('⚠️ Timeout esperando elementos AR:', error);
+            // Mostrar advertencia pero intentar continuar
+            console.log('⚠️ Continuando con inicialización de emergencia...');
+            setTimeout(() => {
+                console.log('🔄 Intento de inicialización de emergencia');
+                initializeMarkerEvents();
+            }, 2000);
+        }
+        
     } catch (error) {
-        console.error('Error cargando escena AR:', error);
-        showError('Error de carga', 'No se pudo cargar el contenido AR. Verifica que el archivo ar-scene.html existe.');
+        console.error('❌ Error cargando escena AR:', error);
+        showError('Error de carga', `No se pudo cargar el contenido AR: ${error.message}`);
     }
 }
 
@@ -63,24 +81,25 @@ async function loadARScene() {
 function waitForARElements() {
     return new Promise((resolve, reject) => {
         let attempts = 0;
-        const maxAttempts = 30; // 15 segundos máximo
+        const maxAttempts = 60; // 30 segundos máximo
         
         const checkElements = () => {
             const marker = document.querySelector('a-marker');
             const scene = document.querySelector('a-scene');
             const content = document.querySelector('#main-content');
             
-            console.log(`Intento ${attempts + 1}: Marker=${!!marker}, Scene=${!!scene}, Content=${!!content}`);
+            console.log(`🔍 Intento ${attempts + 1}: Marker=${!!marker}, Scene=${!!scene}, Content=${!!content}`);
             
-            if (marker && scene) {
-                // Los elementos principales están disponibles
+            // Verificar que A-Frame haya procesado completamente los elementos
+            if (marker && scene && scene.hasLoaded !== false) {
+                console.log('✅ Elementos AR encontrados y A-Frame cargado');
                 resolve();
                 return;
             }
             
             attempts++;
             if (attempts >= maxAttempts) {
-                reject(new Error('Timeout: No se pudieron encontrar los elementos AR'));
+                reject(new Error('❌ Timeout: No se pudieron encontrar los elementos AR después de 30 segundos'));
                 return;
             }
             
@@ -88,7 +107,34 @@ function waitForARElements() {
             setTimeout(checkElements, 500);
         };
         
+        // Comenzar verificación inmediatamente
         checkElements();
+    });
+}
+
+/**
+ * Esperar a que A-Frame esté completamente cargado
+ */
+function waitForAFrameReady() {
+    return new Promise((resolve) => {
+        // Si A-Frame ya está listo
+        if (window.AFRAME && window.AFRAME.scenes && window.AFRAME.scenes.length > 0) {
+            const scene = window.AFRAME.scenes[0];
+            if (scene.hasLoaded) {
+                console.log('✅ A-Frame ya estaba listo');
+                resolve();
+                return;
+            }
+            
+            // Escuchar evento de carga de la escena
+            scene.addEventListener('loaded', () => {
+                console.log('✅ A-Frame scene loaded event triggered');
+                resolve();
+            });
+        } else {
+            // Esperar a que A-Frame se inicialice
+            setTimeout(() => waitForAFrameReady().then(resolve), 100);
+        }
     });
 }
 
@@ -380,7 +426,7 @@ if (!checkBrowserCompatibility()) {
 async function loadDirectoryData() {
     try {
         console.log('Cargando datos del directorio...');
-        const response = await fetch('gtic-directory.json');
+        const response = await fetch('./data/gtic.json');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
