@@ -18,16 +18,18 @@
     renderer="logarithmicDepthBuffer: true; colorManagement: true; sortObjects: true;">
 
     <!-- Marcador HIRO con configuración corregida -->
-    <a-marker 
+       <a-marker 
         type="pattern"
         url="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/data/patt.hiro"
         id="hiro-marker"
         emitevents="true"
         smooth="true"
-        smoothCount="15"
-        smoothTolerance="0.05"
-        smoothThreshold="8"
-        size="1">
+        smoothCount="25"
+        smoothTolerance="0.1"
+        smoothThreshold="15"
+        size="1"
+        minConfidence="0.3">
+
         
         <!-- Contenedor principal con animación suave -->
         <a-entity
