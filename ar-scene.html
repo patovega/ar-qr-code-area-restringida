@@ -8,10 +8,10 @@
           detectionMode: mono; 
           trackingMethod: best;
           smooth: true;
-          smoothCount: 5;
-          smoothTolerance: 0.01;
-          smoothThreshold: 2;
-          patternRatio: 0.8;
+          smoothCount: 15;
+          smoothTolerance: 0.05;
+          smoothThreshold: 8;
+          patternRatio: 0.75;
           canvasWidth: 640;
           canvasHeight: 480;"
     vr-mode-ui="enabled: false"
@@ -24,9 +24,10 @@
         id="hiro-marker"
         emitevents="true"
         smooth="true"
-        smoothCount="5"
-        smoothTolerance="0.01"
-        smoothThreshold="2">
+        smoothCount="15"
+        smoothTolerance="0.05"
+        smoothThreshold="8"
+        size="1">
         
         <!-- Contenedor principal con animación suave -->
         <a-entity
