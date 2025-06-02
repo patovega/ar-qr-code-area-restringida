@@ -69,5 +69,22 @@
             });
     }, 3000);
     </script>
+        <script>
+    // Debug de marcador en tiempo real
+    setTimeout(() => {
+        const marker = document.querySelector('a-marker');
+        if (marker) {
+            console.log('🎯 Marcador encontrado para debug');
+            
+            marker.addEventListener('markerFound', () => {
+                console.log('🟢 EVENTO: Marcador DETECTADO');
+            });
+            
+            marker.addEventListener('markerLost', () => {
+                console.log('🔴 EVENTO: Marcador PERDIDO');
+            });
+        }
+    }, 5000);
+    </script>
 </body>
 </html>

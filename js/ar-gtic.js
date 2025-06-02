@@ -321,7 +321,22 @@ function initializeMarkerEvents() {
 function onMarkerFound() {
     // Aquí puedes agregar efectos adicionales cuando se detecta el marcador
     // Por ejemplo: reproducir sonido, cambiar colores, etc.
-    console.log('Ejecutando efectos de marcador encontrado');
+    console.log('🎯 Ejecutando efectos de marcador encontrado');
+    
+    // Debug: verificar contenido visible
+    const content = document.querySelector('#main-content');
+    if (content) {
+        console.log('✅ Contenido principal encontrado');
+        console.log('   - Posición:', content.getAttribute('position'));
+        console.log('   - Escala:', content.getAttribute('scale'));
+        console.log('   - Visible:', content.getAttribute('visible'));
+        
+        // Forzar visibilidad si está oculto
+        content.setAttribute('visible', 'true');
+        content.setAttribute('scale', '1 1 1');
+    } else {
+        console.error('❌ No se encontró #main-content');
+    }
 }
 
 /**
