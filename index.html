@@ -46,45 +46,6 @@
 
     <!-- Script externo para funcionalidad AR -->
     <script src="js/ar-gtic.js"></script>
-    <script>
-    // Debug mejorado
-    setTimeout(() => {
-        console.log('🔍 DIAGNÓSTICO COMPLETO:');
-        console.log('1. Container existe:', !!document.getElementById('ar-scene-container'));
-        console.log('2. A-scene existe:', !!document.querySelector('a-scene'));
-        console.log('3. Archivo ar-scene.html accesible:');
-        
-        fetch('./ar-scene.html')
-            .then(response => {
-                console.log('   - Status:', response.status);
-                console.log('   - OK:', response.ok);
-                return response.text();
-            })
-            .then(content => {
-                console.log('   - Tamaño:', content.length, 'caracteres');
-                console.log('   - Contiene a-scene:', content.includes('<a-scene'));
-            })
-            .catch(error => {
-                console.log('   - ERROR:', error.message);
-            });
-    }, 3000);
-    </script>
-        <script>
-    // Debug de marcador en tiempo real
-    setTimeout(() => {
-        const marker = document.querySelector('a-marker');
-        if (marker) {
-            console.log('🎯 Marcador encontrado para debug');
-            
-            marker.addEventListener('markerFound', () => {
-                console.log('🟢 EVENTO: Marcador DETECTADO');
-            });
-            
-            marker.addEventListener('markerLost', () => {
-                console.log('🔴 EVENTO: Marcador PERDIDO');
-            });
-        }
-    }, 5000);
-    </script>
+     
 </body>
 </html>
