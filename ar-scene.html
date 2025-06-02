@@ -20,11 +20,9 @@
 
     <!-- Marcador HIRO con configuración simplificada -->
     <a-marker 
-        preset="hiro"
-        id="hiro-marker"
-        emitevents="true"
-        raycaster="objects: .clickable"
-        cursor="fuse: false; rayOrigin: mouse;">
+    type="pattern"
+    url="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/data/patt.hiro"
+    id="hiro-marker">
         
         <!-- Contenedor principal con animación suave -->
         <a-entity
