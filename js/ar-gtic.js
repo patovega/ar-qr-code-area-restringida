@@ -44,13 +44,27 @@ async function loadARScene() {
         container.innerHTML = sceneHTML;
         console.log('✅ Contenido HTML insertado en el container');
         
+        // Dar tiempo inmediato para que el DOM se actualice
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        // Verificar que el contenido se insertó correctamente
+        const insertedScene = document.querySelector('a-scene');
+        if (!insertedScene) {
+            throw new Error('Error: a-scene no se insertó correctamente en el DOM');
+        }
+        console.log('✅ Confirmado: a-scene insertado en DOM');
+        
         // Esperar a que A-Frame procese los elementos
         console.log('⏳ Esperando a que A-Frame procese los elementos...');
         
         try {
-            // Esperar a que A-Frame esté listo
+            // Esperar a que A-Frame esté listo (más tiempo)
             await waitForAFrameReady();
             console.log('✅ A-Frame está listo');
+            
+            // Esperar adicional para que A-Frame termine de procesar
+            console.log('⏳ Dando tiempo adicional para que A-Frame procese...');
+            await new Promise(resolve => setTimeout(resolve, 1000));
             
             // Luego esperar a que los elementos específicos estén disponibles
             await waitForARElements();
@@ -60,13 +74,21 @@ async function loadARScene() {
             console.log('🎯 ¡Sistema AR completamente inicializado!');
             
         } catch (error) {
-            console.error('⚠️ Timeout esperando elementos AR:', error);
-            // Mostrar advertencia pero intentar continuar
-            console.log('⚠️ Continuando con inicialización de emergencia...');
+            console.error('⚠️ Error esperando elementos AR:', error);
+            
+            // Diagnóstico detallado
+            console.log('🔍 Diagnóstico del estado actual:');
+            console.log('- document.querySelector("a-scene"):', !!document.querySelector('a-scene'));
+            console.log('- document.querySelector("a-marker"):', !!document.querySelector('a-marker'));
+            console.log('- document.querySelector("#main-content"):', !!document.querySelector('#main-content'));
+            console.log('- window.AFRAME:', !!window.AFRAME);
+            
+            // Intento de recuperación
+            console.log('🔄 Intentando inicialización de emergencia...');
             setTimeout(() => {
-                console.log('🔄 Intento de inicialización de emergencia');
+                console.log('🆘 Ejecutando inicialización de emergencia');
                 initializeMarkerEvents();
-            }, 2000);
+            }, 3000);
         }
         
     } catch (error) {
@@ -185,29 +207,45 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * Inicializar eventos del marcador AR
+ * Inicializar eventos del marcador AR con verificación más robusta
  */
 function initializeMarkerEvents() {
+    console.log('🔄 Iniciando configuración de eventos del marcador...');
+    
     const marker = document.querySelector('a-marker');
     const content = document.querySelector('#main-content');
     const scene = document.querySelector('a-scene');
     
-    console.log('Verificando elementos AR:');
-    console.log('- Marker:', !!marker);
-    console.log('- Content:', !!content);
-    console.log('- Scene:', !!scene);
+    console.log('🔍 Verificando elementos AR:');
+    console.log('- Marker:', !!marker, marker ? '✅' : '❌');
+    console.log('- Content:', !!content, content ? '✅' : '❌');
+    console.log('- Scene:', !!scene, scene ? '✅' : '❌');
     
     if (!marker) {
-        console.warn('⚠️ No se encontró el elemento a-marker');
+        console.error('⚠️ No se encontró el elemento a-marker');
+        
+        // Intentar encontrar cualquier elemento de A-Frame para diagnóstico
+        const allAFrameElements = document.querySelectorAll('[geometry], [material], a-entity, a-plane, a-text');
+        console.log('🔍 Elementos A-Frame encontrados:', allAFrameElements.length);
+        allAFrameElements.forEach((el, i) => {
+            console.log(`   ${i + 1}. ${el.tagName}:`, el.getAttribute('id') || 'sin id');
+        });
+        
         return;
     }
     
     if (!scene) {
-        console.warn('⚠️ No se encontró el elemento a-scene');
+        console.error('⚠️ No se encontró el elemento a-scene');
         return;
     }
     
     console.log('✅ Configurando eventos del marcador...');
+    
+    // Verificar si el marcador ya tiene eventos configurados
+    if (marker._eventConfigured) {
+        console.log('⚠️ Eventos ya configurados anteriormente, saltando...');
+        return;
+    }
     
     // Eventos de marcador con debouncing
     marker.addEventListener('markerFound', function() {
@@ -242,6 +280,9 @@ function initializeMarkerEvents() {
     scene.addEventListener('loaded', function() {
         console.log('🌟 A-Frame scene completamente cargada');
     });
+    
+    // Marcar como configurado
+    marker._eventConfigured = true;
     
     console.log('✅ Eventos del marcador configurados exitosamente');
 }
