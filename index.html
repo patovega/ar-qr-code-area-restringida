@@ -18,25 +18,23 @@
         • Mantén distancia de 20-50cm
     </div>
 
+    <!-- Panel de debug mejorado -->
+    <div class="debug-panel">
+        <div><strong>🔍 Estado del Sistema:</strong></div>
+        <div id="debug-container">Container: Verificando...</div>
+        <div id="debug-scene">Escena: Esperando...</div>
+        <div id="debug-marker">Marcador: Buscando...</div>
+        <div id="debug-content">Contenido: Preparando...</div>
+        <div id="debug-camera">Cámara: Verificando...</div>
+    </div>
+
     <div id="ar-scene-container">
-        <!-- El contenido AR se cargará dinámicamente aquí -->
-        <div class="loading-ar" style="
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 18px;
-            text-align: center;
-            background: rgba(0,0,0,0.7);
-            padding: 20px;
-            border-radius: 10px;
-        ">
+        <!-- El contenido AR se cargará dinámicamente desde ar-scene.html -->
+        <div class="loading-ar" id="loading-indicator">
             🔄 Cargando experiencia AR...<br>
             <small>Preparando cámara y contenido</small>
         </div>
     </div>
-
 
     <div class="ar-overlay">
         <button class="contact-btn" onclick="contactSupport()">
@@ -46,6 +44,168 @@
 
     <!-- Script externo para funcionalidad AR -->
     <script src="js/ar-gtic.js"></script>
-     
+    
+    <!-- Script de inicialización mejorado -->
+    <script>
+        // Variables globales para debug
+        window.debugElements = {
+            container: document.getElementById('debug-container'),
+            scene: document.getElementById('debug-scene'),
+            marker: document.getElementById('debug-marker'),
+            content: document.getElementById('debug-content'),
+            camera: document.getElementById('debug-camera')
+        };
+
+        // Función para actualizar debug (disponible globalmente)
+        window.updateDebug = function(element, message, status = '') {
+            if (window.debugElements[element]) {
+                const statusIcon = status === 'ok' ? '✅' : status === 'error' ? '❌' : status === 'warning' ? '⚠️' : '';
+                window.debugElements[element].textContent = `${element.charAt(0).toUpperCase() + element.slice(1)}: ${message} ${statusIcon}`;
+            }
+        };
+
+        // Debug mejorado con más información
+        setTimeout(() => {
+            console.log('🔍 DIAGNÓSTICO COMPLETO:');
+            console.log('1. Container existe:', !!document.getElementById('ar-scene-container'));
+            console.log('2. A-scene existe:', !!document.querySelector('a-scene'));
+            console.log('3. Archivo ar-scene.html accesible:');
+            
+            // Actualizar debug UI
+            window.updateDebug('container', 'Encontrado', 'ok');
+            
+            fetch('./ar-scene.html')
+                .then(response => {
+                    console.log('   - Status:', response.status);
+                    console.log('   - OK:', response.ok);
+                    
+                    if (response.ok) {
+                        window.updateDebug('content', 'Archivo accesible', 'ok');
+                    } else {
+                        window.updateDebug('content', `Error HTTP ${response.status}`, 'error');
+                    }
+                    
+                    return response.text();
+                })
+                .then(content => {
+                    console.log('   - Tamaño:', content.length, 'caracteres');
+                    console.log('   - Contiene a-scene:', content.includes('<a-scene'));
+                    console.log('   - Contiene marcador HIRO:', content.includes('preset="hiro"'));
+                    
+                    if (content.includes('<a-scene')) {
+                        window.updateDebug('scene', 'Estructura válida', 'ok');
+                    } else {
+                        window.updateDebug('scene', 'Estructura inválida', 'error');
+                    }
+                    
+                    if (content.includes('preset="hiro"')) {
+                        window.updateDebug('marker', 'Configuración encontrada', 'ok');
+                    } else {
+                        window.updateDebug('marker', 'Configuración no encontrada', 'warning');
+                    }
+                })
+                .catch(error => {
+                    console.log('   - ERROR:', error.message);
+                    window.updateDebug('content', `Error: ${error.message}`, 'error');
+                });
+        }, 2000);
+
+        // Debug de marcador en tiempo real (mejorado)
+        setTimeout(() => {
+            const marker = document.querySelector('a-marker');
+            if (marker) {
+                console.log('🎯 Marcador encontrado para debug');
+                window.updateDebug('marker', 'Eventos configurados', 'ok');
+                
+                marker.addEventListener('markerFound', () => {
+                    console.log('🟢 EVENTO: Marcador DETECTADO');
+                    window.updateDebug('marker', 'DETECTADO!', 'ok');
+                    
+                    // Verificar contenido visible
+                    const content = document.querySelector('#main-content');
+                    if (content) {
+                        const position = content.getAttribute('position');
+                        const scale = content.getAttribute('scale');
+                        const visible = content.getAttribute('visible');
+                        console.log('📊 Estado del contenido:', { position, scale, visible });
+                    }
+                });
+                
+                marker.addEventListener('markerLost', () => {
+                    console.log('🔴 EVENTO: Marcador PERDIDO');
+                    window.updateDebug('marker', 'Perdido, buscando...', 'warning');
+                });
+            } else {
+                console.log('❌ No se encontró marcador para debug');
+                window.updateDebug('marker', 'No encontrado', 'error');
+            }
+        }, 6000);
+
+        // Verificar estado de la cámara
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            window.updateDebug('camera', 'Solicitando permisos...', '');
+            
+            navigator.mediaDevices.getUserMedia({ 
+                video: { 
+                    facingMode: 'environment',
+                    width: { ideal: 640 },
+                    height: { ideal: 480 }
+                } 
+            })
+            .then(function(stream) {
+                console.log('✅ Cámara: Acceso concedido');
+                window.updateDebug('camera', 'Acceso concedido', 'ok');
+                stream.getTracks().forEach(track => track.stop());
+            })
+            .catch(function(error) {
+                console.error('❌ Cámara: Error de acceso:', error);
+                window.updateDebug('camera', `Error: ${error.name}`, 'error');
+            });
+        } else {
+            window.updateDebug('camera', 'API no soportada', 'error');
+        }
+
+        // Monitor de carga de A-Frame
+        let aframeCheckInterval = setInterval(() => {
+            if (window.AFRAME) {
+                console.log('✅ A-Frame detectado:', window.AFRAME.version);
+                clearInterval(aframeCheckInterval);
+                
+                // Verificar si hay escenas cargadas
+                if (window.AFRAME.scenes && window.AFRAME.scenes.length > 0) {
+                    const scene = window.AFRAME.scenes[0];
+                    console.log('📱 Primera escena encontrada:', scene);
+                    
+                    scene.addEventListener('loaded', () => {
+                        console.log('🌟 Escena A-Frame completamente cargada');
+                        window.updateDebug('scene', 'A-Frame cargado completamente', 'ok');
+                    });
+                }
+            }
+        }, 1000);
+
+        // Limpiar interval después de 10 segundos
+        setTimeout(() => {
+            if (aframeCheckInterval) {
+                clearInterval(aframeCheckInterval);
+            }
+        }, 10000);
+
+        // Función de emergencia para forzar carga si falla
+        window.forceLoadARScene = function() {
+            console.log('🆘 Forzando carga de emergencia...');
+            if (window.loadARScene) {
+                window.loadARScene();
+            } else {
+                console.error('❌ Función loadARScene no disponible');
+            }
+        };
+
+        // Botón de emergencia (solo para debug)
+        console.log('🔧 Funciones de debug disponibles:');
+        console.log('- window.forceLoadARScene(): Forzar carga de AR');
+        console.log('- window.updateDebug(element, message, status): Actualizar debug');
+        console.log('- window.debugElements: Elementos de debug');
+    </script>
 </body>
 </html>

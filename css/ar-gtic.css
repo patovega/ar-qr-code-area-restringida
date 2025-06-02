@@ -1,209 +1,212 @@
-/* 
- * ar-gtic.css - Estilos para aplicación AR del directorio GTIC
- * Versión: 1.0
- * Descripción: Estilos optimizados para experiencia AR móvil y desktop
- */
-
-/* ========================================
-   ESTILOS BASE
-   ======================================== */
-
-* {
-    box-sizing: border-box;
-}
+/* ar-gtic.css - Estilos para aplicación AR del directorio GTIC */
 
 body {
     margin: 0;
-    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #000;
     overflow: hidden;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #000;
-    user-select: none; /* Prevenir selección de texto en AR */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
 }
-
-/* Prevenir zoom en iOS */
-html {
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-}
-
-/* ========================================
-   OVERLAY DE AR
-   ======================================== */
-
-.ar-overlay {
-    position: fixed;
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    width: 100%;
-    text-align: center;
-    z-index: 999;
-    pointer-events: none; /* Permitir que el AR funcione debajo */
-}
-
-.ar-overlay > * {
-    pointer-events: auto; /* Reactivar eventos para botones */
-}
-
-/* ========================================
-   BOTONES
-   ======================================== */
-
-.contact-btn {
-    background: linear-gradient(135deg, #d9534f 0%, #c9302c 100%);
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(217, 83, 79, 0.3);
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    min-height: 48px; /* Accesibilidad táctil */
-    min-width: 48px;
-}
-
-.contact-btn:hover {
-    background: linear-gradient(135deg, #c9302c 0%, #ac2925 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(217, 83, 79, 0.4);
-}
-
-.contact-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(217, 83, 79, 0.3);
-}
-
-/* Efectos para móviles */
-.contact-btn:focus {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
-}
-
-/* ========================================
-   INSTRUCCIONES
-   ======================================== */
 
 .instructions {
     position: fixed;
     top: 10px;
     left: 10px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    right: 10px;
+    background: rgba(0,0,0,0.8);
+    color: white;
     padding: 15px;
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    z-index: 999;
-    max-width: 320px;
     font-size: 14px;
-    line-height: 1.4;
-    color: #333;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    animation: slideInFromTop 0.5s ease-out;
+    z-index: 999;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 .instructions strong {
     color: #4285f4;
-    font-weight: 600;
 }
 
-.instructions ul {
-    margin: 8px 0 0 0;
-    padding-left: 16px;
+.ar-overlay {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
 }
 
-.instructions li {
-    margin-bottom: 4px;
+.contact-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    font-weight: bold;
 }
 
-/* ========================================
-   ANIMACIONES
-   ======================================== */
+.contact-btn:hover {
+    background: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
 
-@keyframes slideInFromTop {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
+.contact-btn:active {
+    transform: translateY(0px);
+}
+
+#ar-scene-container {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.loading-ar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    background: rgba(0,0,0,0.7);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(5px);
+}
+
+.loading-ar small {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.debug-panel {
+    position: fixed;
+    top: 80px;
+    right: 10px;
+    background: rgba(0,0,0,0.85);
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-family: 'Courier New', monospace;
+    z-index: 999;
+    max-width: 280px;
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+}
+
+.debug-panel div {
+    margin: 3px 0;
+    padding: 2px 0;
+}
+
+.debug-panel strong {
+    color: #4285f4;
+    font-size: 12px;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .instructions {
+        font-size: 12px;
+        padding: 12px;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    
+    .debug-panel {
+        font-size: 10px;
+        padding: 8px;
+        max-width: 200px;
+        right: 5px;
+        top: 70px;
+    }
+    
+    .contact-btn {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+    
+    .loading-ar {
+        font-size: 16px;
+        padding: 16px;
     }
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+/* Estados de debug con colores */
+.debug-panel div:contains("✅") {
+    color: #28a745;
+}
+
+.debug-panel div:contains("❌") {
+    color: #dc3545;
+}
+
+.debug-panel div:contains("⚠️") {
+    color: #ffc107;
+}
+
+/* Animaciones sutiles */
+.loading-ar {
+    animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
+    0% { opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
 }
 
-/* ========================================
-   PANTALLAS DE ERROR
-   ======================================== */
+.contact-btn {
+    animation: float 3s ease-in-out infinite;
+}
 
-.error-container {
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-3px); }
+}
+
+/* Estilos para pantalla de error */
+.error-screen {
     padding: 20px;
     text-align: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.error-card {
+.error-container {
     max-width: 500px;
-    margin: 0 auto;
     background: white;
-    padding: 40px 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 0.5s ease-out;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .error-title {
     color: #d9534f;
     margin-bottom: 20px;
     font-size: 24px;
-    font-weight: 600;
 }
 
 .error-message {
     margin: 20px 0;
     color: #333;
-    line-height: 1.6;
+    line-height: 1.5;
     font-size: 16px;
 }
 
 .error-buttons {
     margin-top: 30px;
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
 }
 
 .error-btn {
@@ -212,10 +215,8 @@ html {
     border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
-    font-weight: 500;
+    margin: 0 5px;
     transition: all 0.3s ease;
-    min-height: 48px;
-    min-width: 120px;
 }
 
 .error-btn.primary {
@@ -223,26 +224,21 @@ html {
     color: white;
 }
 
-.error-btn.primary:hover {
-    background: #3367d6;
-    transform: translateY(-1px);
-}
-
 .error-btn.success {
     background: #28a745;
     color: white;
 }
 
-.error-btn.success:hover {
-    background: #218838;
+.error-btn:hover {
     transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 .error-tips {
     margin-top: 20px;
     padding: 15px;
     background: #f8f9fa;
-    border-radius: 8px;
+    border-radius: 5px;
     font-size: 14px;
     color: #666;
     text-align: left;
@@ -250,157 +246,27 @@ html {
 
 .error-tips strong {
     color: #333;
-    display: block;
-    margin-bottom: 8px;
 }
 
-/* ========================================
-   RESPONSIVE DESIGN
-   ======================================== */
-
-/* Tablets */
-@media (max-width: 768px) {
-    .instructions {
-        max-width: 280px;
-        font-size: 13px;
-        padding: 12px;
-    }
-    
-    .contact-btn {
-        padding: 10px 20px;
-        font-size: 15px;
-    }
-    
-    .error-card {
-        margin: 20px;
-        padding: 30px 20px;
-    }
+/* Ocultador de elementos de A-Frame por defecto */
+a-scene {
+    width: 100% !important;
+    height: 100% !important;
 }
 
-/* Móviles */
+/* Optimizaciones para rendimiento en móviles */
 @media (max-width: 480px) {
     .instructions {
-        position: fixed;
-        top: 5px;
-        left: 5px;
-        right: 5px;
-        max-width: none;
-        font-size: 12px;
-        padding: 10px;
-    }
-    
-    .ar-overlay {
-        bottom: 15px;
-        padding: 0 10px;
-    }
-    
-    .contact-btn {
-        padding: 12px 18px;
-        font-size: 14px;
-        border-radius: 20px;
-    }
-    
-    .error-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .error-btn {
-        width: 100%;
-        max-width: 200px;
-    }
-}
-
-/* Landscape en móviles */
-@media (max-height: 500px) and (orientation: landscape) {
-    .instructions {
-        top: 5px;
-        padding: 8px;
         font-size: 11px;
-        max-width: 250px;
+        padding: 8px;
     }
     
-    .ar-overlay {
-        bottom: 10px;
+    .debug-panel {
+        display: none; /* Ocultar en pantallas muy pequeñas */
     }
     
     .contact-btn {
-        padding: 8px 16px;
         font-size: 13px;
+        padding: 8px 14px;
     }
-}
-
-/* ========================================
-   MODO OSCURO (OPCIONAL)
-   ======================================== */
-
-@media (prefers-color-scheme: dark) {
-    .instructions {
-        background: rgba(30, 30, 30, 0.95);
-        color: #e0e0e0;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .instructions strong {
-        color: #64b5f6;
-    }
-}
-
-/* ========================================
-   ACCESIBILIDAD
-   ======================================== */
-
-/* Reducir movimiento para usuarios sensibles */
-@media (prefers-reduced-motion: reduce) {
-    .instructions {
-        animation: none;
-    }
-    
-    .contact-btn {
-        transition: none;
-    }
-    
-    .contact-btn:hover {
-        transform: none;
-    }
-}
-
-/* Alto contraste */
-@media (prefers-contrast: high) {
-    .instructions {
-        background: rgba(255, 255, 255, 1);
-        border: 2px solid #000;
-    }
-    
-    .contact-btn {
-        border: 2px solid #000;
-    }
-}
-
-/* ========================================
-   UTILIDADES
-   ======================================== */
-
-.hidden {
-    display: none !important;
-}
-
-.fade-in {
-    animation: fadeIn 0.5s ease-out;
-}
-
-.pulse {
-    animation: pulse 2s infinite;
-}
-
-/* Prevenir selección y arrastrado en AR */
-.no-select {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
 }
