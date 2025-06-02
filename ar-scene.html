@@ -21,7 +21,10 @@
     <!-- Marcador HIRO con configuración simplificada -->
     <a-marker 
         preset="hiro"
-        id="hiro-marker">
+        id="hiro-marker"
+        emitevents="true"
+        raycaster="objects: .clickable"
+        cursor="fuse: false; rayOrigin: mouse;">
         
         <!-- Contenedor principal con animación suave -->
         <a-entity
