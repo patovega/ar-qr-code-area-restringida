@@ -229,9 +229,19 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeMarkerEvents() {
     console.log('🔄 Iniciando configuración de eventos del marcador...');
     
+    // VERIFICAR PRIMERO si hay contenido AR cargado
+    const container = document.getElementById('ar-scene-container');
     const marker = document.querySelector('a-marker');
-    const content = document.querySelector('#main-content');
     const scene = document.querySelector('a-scene');
+    
+    // Si no hay marcador pero sí hay container, necesitamos cargar el contenido
+    if (!marker && container && container.innerHTML.includes('loading-ar')) {
+        console.log('🚨 DETECTADO: Container vacío, forzando carga de ar-scene.html');
+        loadARScene();
+        return;
+    }
+    
+    const content = document.querySelector('#main-content');
     
     console.log('🔍 Verificando elementos AR:');
     console.log('- Marker:', !!marker, marker ? '✅' : '❌');
@@ -248,6 +258,7 @@ function initializeMarkerEvents() {
             console.log(`   ${i + 1}. ${el.tagName}:`, el.getAttribute('id') || 'sin id');
         });
         
+        console.error('🚨 PROBLEMA: Elementos AR no cargados - verificar ar-scene.html');
         return;
     }
     
