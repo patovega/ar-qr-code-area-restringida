@@ -319,7 +319,7 @@ if (!checkBrowserCompatibility()) {
 async function loadDirectoryData() {
     try {
         console.log('Cargando datos del directorio...');
-        const response = await fetch('./gtic-directory.json');
+        const response = await fetch('data/gtic-directory.json');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
