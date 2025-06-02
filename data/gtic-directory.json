@@ -1,0 +1,159 @@
+{
+  "title": "Gerencia TIC",
+  "version": "1.0",
+  "lastUpdated": "2025-06-01",
+  "department": {
+    "name": "Gerencia de Informática y Transformación Digital",
+    "code": "GTIC",
+    "description": "Departamento encargado de la gestión tecnológica y transformación digital de la organización"
+  },
+  "positions": [
+    {
+      "id": "001",
+      "title": "Gerente de Informatica y Transformacion Digital",
+      "name": "Rodrigo Bilbao",
+      "type": "manager",
+      "level": 1,
+      "email": "rodrigo.bilbao@sgscm.cl",
+      "extension": "1001",
+      "department": "GTIC",
+      "active": true
+    },
+    {
+      "id": "002",
+      "title": "SI de Sistemas",
+      "name": "Daniel Bautista",
+      "type": "si",
+      "level": 2,
+      "email": "daniel.bautista@sgscm.cl",
+      "extension": "1002",
+      "department": "GTIC-SIS",
+      "active": true,
+      "responsibilities": [
+        "Administración de sistemas",
+        "Mantenimiento de servidores",
+        "Gestión de bases de datos"
+      ]
+    },
+    {
+      "id": "003",
+      "title": "SI de Servicios Tecnologicos",
+      "name": "Mauricio Leiva",
+      "type": "si",
+      "level": 2,
+      "email": "mauricio.leiva@sgscm.cl",
+      "extension": "1003",
+      "department": "GTIC-ST",
+      "active": true,
+      "responsibilities": [
+        "Soporte técnico",
+        "Mantenimiento de equipos",
+        "Gestión de red"
+      ]
+    },
+    {
+      "id": "004",
+      "title": "SI de Innovación Tecnologica",
+      "name": "Rodrigo Azua",
+      "type": "si",
+      "level": 2,
+      "email": "rodrigo.azua@sgscm.cl",
+      "extension": "1004",
+      "department": "GTIC-IT",
+      "active": true,
+      "responsibilities": [
+        "Investigación y desarrollo",
+        "Implementación de nuevas tecnologías",
+        "Proyectos de innovación"
+      ]
+    },
+    {
+      "id": "005",
+      "title": "SI de Ciberseguridad",
+      "name": "Andrés Penailillo",
+      "type": "si",
+      "level": 2,
+      "email": "andres.penailillo@sgscm.cl",
+      "extension": "1005",
+      "department": "GTIC-CS",
+      "active": true,
+      "responsibilities": [
+        "Seguridad informática",
+        "Análisis de vulnerabilidades",
+        "Respuesta a incidentes"
+      ]
+    }
+  ],
+  "shifts": {
+    "title": "TURNOS 7X7",
+    "type": "rotation",
+    "description": "Sistema de turnos rotativos de 7 días",
+    "schedule": [
+      {
+        "id": "T1-T2",
+        "name": "Turno 1-2: Carlos Colque",
+        "employee": "Carlos Colque",
+        "shifts": ["Turno 1", "Turno 2"],
+        "hours": "07:00-19:00",
+        "days": 7,
+        "contact": {
+          "phone": "+56 9 8765 4321",
+          "email": "carlos.colque@sgscm.cl"
+        }
+      },
+      {
+        "id": "T3-T4",
+        "name": "Turno 3-4: Rodrigo Ayala",
+        "employee": "Rodrigo Ayala",
+        "shifts": ["Turno 3", "Turno 4"],
+        "hours": "19:00-07:00",
+        "days": 7,
+        "contact": {
+          "phone": "+56 9 1234 5678",
+          "email": "rodrigo.ayala@sgscm.cl"
+        }
+      }
+    ]
+  },
+  "contact": {
+    "mainDesk": {
+      "name": "Mesa de Ayuda TIC",
+      "email": "MesaDeAyudaTIC@sgscm.cl",
+      "phone": "+56 9 3943 6079",
+      "hours": "24/7",
+      "location": "Edificio Central, Piso 3"
+    },
+    "emergency": {
+      "phone": "+56 9 3943 6079",
+      "email": "emergencia.tic@sgscm.cl"
+    }
+  },
+  "settings": {
+    "colors": {
+      "primary": "#4285F4",
+      "secondary": "#34A853",
+      "accent": "#EA4335",
+      "background": "#FFFFFF",
+      "text": "#FFFFFF",
+      "textDark": "#333333"
+    },
+    "display": {
+      "showAnimations": true,
+      "showExtensions": false,
+      "showEmails": false,
+      "compactMode": false
+    },
+    "ar": {
+      "scale": 1.0,
+      "smoothing": true,
+      "autoHide": true,
+      "animationDuration": 300
+    }
+  },
+  "metadata": {
+    "createdBy": "GTIC Development Team",
+    "updatedBy": "System Administrator",
+    "format": "AR Directory JSON Schema v1.0",
+    "compatibility": "A-Frame 1.4.x, AR.js 3.x"
+  }
+}

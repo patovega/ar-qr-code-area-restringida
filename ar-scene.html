@@ -1,0 +1,267 @@
+<!-- ar-scene.html - Contenido AR del directorio GTIC -->
+<!-- Este archivo contiene solo la escena AR sin HTML, HEAD o BODY -->
+
+<!-- Configuración AR.js mejorada para estabilidad -->
+<a-scene 
+    embedded 
+    arjs="sourceType: webcam; 
+          debugUIEnabled: false; 
+          detectionMode: mono_and_matrix; 
+          matrixCodeType: 3x3;
+          trackingMethod: best;
+          smooth: true;
+          smoothCount: 10;
+          smoothTolerance: 0.01;
+          smoothThreshold: 5;
+          patternRatio: 0.8;
+          canvasWidth: 640;
+          canvasHeight: 480;"
+    vr-mode-ui="enabled: false"
+    renderer="logarithmicDepthBuffer: true; colorManagement: true; sortObjects: true;">
+
+    <!-- Marcador con configuraciones mejoradas -->
+    <a-marker 
+        preset="hiro"
+        smooth="true"
+        smoothCount="10"
+        smoothTolerance="0.01"
+        smoothThreshold="5"
+        raycaster="objects: .clickable">
+        
+        <!-- Contenedor principal con animación suave -->
+        <a-entity
+            id="main-content"
+            position="0 0.5 0"
+            rotation="-90 0 0"
+            scale="1 1 1"
+            animation__show="property: scale; 
+                           to: 1 1 1; 
+                           startEvents: markerFound; 
+                           dur: 300; 
+                           easing: easeOutQuad"
+            animation__hide="property: scale; 
+                           to: 0.001 0.001 0.001; 
+                           startEvents: markerLost; 
+                           dur: 100">
+                           
+            <!-- Fondo del directorio -->
+            <a-plane 
+                width="3" 
+                height="4" 
+                color="#FFFFFF" 
+                opacity="0.95" 
+                position="0 0 0"
+                material="transparent: true; alphaTest: 0.1">
+            </a-plane>
+            
+            <!-- Título principal -->
+            <a-text
+                value="Gerencia TIC"
+                position="0 1.8 0.01"
+                rotation="0 0 0"
+                color="#333333"
+                width="2.8"
+                align="center"
+                scale="1.5 1.5 1.5"
+                geometry="primitive: plane"
+                material="color: transparent; transparent: true">
+            </a-text>
+            
+            <!-- Gerente -->
+            <a-entity position="0 1.4 0.01">
+                <a-plane 
+                    width="2.8" 
+                    height="0.3" 
+                    color="#4285F4" 
+                    opacity="0.95" 
+                    position="0 0 0"
+                    material="transparent: true">
+                </a-plane>
+                <a-text
+                    value="Gerente de Informatica y Transformacion Digital"
+                    position="0 0.08 0.01"
+                    rotation="0 0 0"
+                    color="#FFFFFF"
+                    width="2.7"
+                    align="center"
+                    scale="0.7 0.7 0.7">
+                </a-text>
+                <a-text
+                    value="Rodrigo Bilbao"
+                    position="0 -0.06 0.01"
+                    rotation="0 0 0"
+                    color="#FFFFFF"
+                    width="2.7"
+                    align="center"
+                    scale="0.7 0.7 0.7">
+                </a-text>
+            </a-entity>
+            
+            <!-- SI de Sistemas -->
+            <a-entity position="0 1.0 0.01">
+                <a-plane 
+                    width="2.8" 
+                    height="0.3" 
+                    color="#4285F4" 
+                    opacity="0.95" 
+                    position="0 0 0"
+                    material="transparent: true">
+                </a-plane>
+                <a-text
+                    value="SI de Sistemas"
+                    position="0 0.08 0.01"
+                    rotation="0 0 0"
+                    color="#FFFFFF"
+                    width="2.7"
+                    align="center"
+                    scale="0.7 0.7 0.7">
+                </a-text>
+                <a-text
+                    value="Daniel Bautista"
+                    position="0 -0.06 0.01"
+                    rotation="0 0 0"
+                    color="#FFFFFF"
+                    width="2.7"
+                    align="center"
+                    scale="0.7 0.7 0.7">
+                </a-text>
+            </a-entity>
+            
+            <!-- SI de Servicios Tecnológicos -->
+            <a-entity position="0 0.6 0.01">
+                <a-plane 
+                    width="2.8" 
+                    height="0.3" 
+                    color="#4285F4" 
+                    opacity="0.95" 
+                    position="0 0 0"
+                    material="transparent: true">
+                </a-plane>
+                <a-text
+                    value="SI de Servicios Tecnologicos"
+                    position="0 0.08 0.01"
+                    rotation="0 0 0"
+                    color="#FFFFFF"
+                    width="2.7"
+                    align="center"
+                    scale="0.7 0.7 0.7">
+                </a-text>
+                <a-text
+                    value="Mauricio Leiva"
+                    position="0 -0.06 0.01"
+                    rotation="0 0 0"
+                    color="#FFFFFF"
+                    width="2.7"
+                    align="center"
+                    scale="0.7 0.7 0.7">
+                </a-text>
+            </a-entity>
+            
+            <!-- SI de Innovación Tecnológica -->
+            <a-entity position="0 0.2 0.01">
+                <a-plane 
+                    width="2.8" 
+                    height="0.3" 
+                    color="#4285F4" 
+                    opacity="0.95" 
+                    position="0 0 0"
+                    material="transparent: true">
+                </a-plane>
+                <a-text
+                    value="SI de Innovación Tecnologica"
+                    position="0 0.08 0.01"
+                    rotation="0 0 0"
+                    color="#FFFFFF"
+                    width="2.7"
+                    align="center"
+                    scale="0.7 0.7 0.7">
+                </a-text>
+                <a-text
+                    value="Rodrigo Azua"
+                    position="0 -0.06 0.01"
+                    rotation="0 0 0"
+                    color="#FFFFFF"
+                    width="2.7"
+                    align="center"
+                    scale="0.7 0.7 0.7">
+                </a-text>
+            </a-entity>
+            
+            <!-- SI de Ciberseguridad -->
+            <a-entity position="0 -0.2 0.01">
+                <a-plane 
+                    width="2.8" 
+                    height="0.3" 
+                    color="#4285F4" 
+                    opacity="0.95" 
+                    position="0 0 0"
+                    material="transparent: true">
+                </a-plane>
+                <a-text
+                    value="SI de Ciberseguridad"
+                    position="0 0.08 0.01"
+                    rotation="0 0 0"
+                    color="#FFFFFF"
+                    width="2.7"
+                    align="center"
+                    scale="0.7 0.7 0.7">
+                </a-text>
+                <a-text
+                    value="Andrés Penailillo"
+                    position="0 -0.06 0.01"
+                    rotation="0 0 0"
+                    color="#FFFFFF"
+                    width="2.7"
+                    align="center"
+                    scale="0.7 0.7 0.7">
+                </a-text>
+            </a-entity>
+            
+            <!-- Apartado de Turnos -->
+            <a-entity position="0 -0.8 0.01">
+                <a-plane 
+                    width="2.8" 
+                    height="0.7" 
+                    color="#000000" 
+                    opacity="0.95" 
+                    position="0 0 0"
+                    material="transparent: true">
+                </a-plane>
+                <a-text
+                    value="TURNOS 7X7"
+                    position="0 0.25 0.01"
+                    rotation="0 0 0"
+                    color="#FFFFFF"
+                    width="2.7"
+                    align="center"
+                    scale="0.8 0.8 0.8">
+                </a-text>
+                <a-text
+                    value="Turno 1-2: Carlos Colque"
+                    position="0 0.05 0.01"
+                    rotation="0 0 0"
+                    color="#FFFFFF"
+                    width="2.7"
+                    align="center"
+                    scale="0.7 0.7 0.7">
+                </a-text>
+                <a-text
+                    value="Turno 3-4: Rodrigo Ayala"
+                    position="0 -0.15 0.01"
+                    rotation="0 0 0"
+                    color="#FFFFFF"
+                    width="2.7"
+                    align="center"
+                    scale="0.7 0.7 0.7">
+                </a-text>
+            </a-entity>
+        </a-entity>
+    </a-marker>
+    
+    <!-- Cámara con configuración mejorada -->
+    <a-entity 
+        camera
+        look-controls="enabled: false"
+        wasd-controls="enabled: false">
+    </a-entity>
+</a-scene>
