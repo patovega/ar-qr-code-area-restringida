@@ -166,7 +166,21 @@ function waitForAFrameReady() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Iniciando aplicación AR-GTIC...');
     
-    // Configuración de cámara mejorada
+    // VERIFICAR si necesitamos cargar contenido AR dinámicamente
+    const container = document.getElementById('ar-scene-container');
+    const existingScene = document.querySelector('a-scene');
+    
+    if (container && !existingScene) {
+        console.log('📋 Modo de carga dinámica detectado - contenedor vacío');
+        console.log('🔄 Se procederá a cargar ar-scene.html');
+    } else if (existingScene) {
+        console.log('📋 Contenido AR estático detectado - inicialización directa');
+        // Si ya hay contenido AR estático, inicializar directamente
+        setTimeout(() => initializeMarkerEvents(), 1000);
+        return;
+    }
+    
+    // Configuración de cámara para carga dinámica
     if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
         navigator.mediaDevices.enumerateDevices()
             .then(function(devices) {
