@@ -175,8 +175,11 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('🔄 Se procederá a cargar ar-scene.html');
     } else if (existingScene) {
         console.log('📋 Contenido AR estático detectado - inicialización directa');
-        // Si ya hay contenido AR estático, inicializar directamente
-        setTimeout(() => initializeMarkerEvents(), 1000);
+        // Si ya hay contenido AR estático, inicializar directamente después de un delay
+        setTimeout(() => {
+            console.log('🔄 Inicializando eventos para contenido estático...');
+            initializeMarkerEvents();
+        }, 1000);
         return;
     }
     
