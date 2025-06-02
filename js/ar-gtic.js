@@ -26,7 +26,7 @@ function contactSupport() {
 async function loadARScene() {
     try {
         console.log('Cargando escena AR...');
-        const response = await fetch('ar-scene.html');
+        const response = await fetch('./ar-scene.html');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
